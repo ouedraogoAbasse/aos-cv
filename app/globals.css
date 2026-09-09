@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --aoscv-bg: #f6f7fb;
+  --aoscv-card: rgba(255, 255, 255, 0.7);
+  --aoscv-border: rgba(148, 163, 184, 0.18);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 35%, #fdf2f8 100%);
+  color: #111827;
+}
+
+.scrollable {
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.scrollable-preview {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100vh;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+.aoscv-hero {
+  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.18), transparent 32%);
+}
+
+.aoscv-glass {
+  background: var(--aoscv-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--aoscv-border);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
+}
