@@ -43,14 +43,12 @@ export default function Home() {
     skills: true,
     hobbies: true,
   });
-  const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"orange" | "moov">("orange");
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [paymentName, setPaymentName] = useState("");
   const [paymentPhone, setPaymentPhone] = useState("");
   const [paymentReference, setPaymentReference] = useState("");
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
     const defaultImageUrl = "/profile.jpg";
@@ -194,7 +192,6 @@ export default function Home() {
   };
 
   const openPaymentModal = () => {
-    setPaymentOpen(true);
     (document.getElementById("payment_modal") as HTMLDialogElement)?.showModal();
   };
 
@@ -844,8 +841,6 @@ export default function Home() {
                   }
 
                   setPaymentConfirmed(true);
-                  setPaymentOpen(false);
-                  setPaymentSuccess(true);
 
                   const paymentModal = document.getElementById("payment_modal") as HTMLDialogElement | null;
                   if (paymentModal) paymentModal.close();
@@ -882,7 +877,6 @@ export default function Home() {
                 type="button"
                 className="btn btn-success btn-lg"
                 onClick={() => {
-                  setPaymentSuccess(false);
                   (document.getElementById("payment_success_modal") as HTMLDialogElement)?.close();
                 }}
               >
