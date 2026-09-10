@@ -727,7 +727,7 @@ export default function Home() {
       </main>
 
       <dialog id="payment_modal" className="modal">
-        <div className="modal-box max-h-[90vh] max-w-2xl overflow-y-auto rounded-[2rem] border border-primary/20 bg-white p-0">
+        <div className="modal-box max-h-[90vh] max-w-2xl overflow-x-auto overflow-y-auto rounded-[2rem] border border-primary/20 bg-white p-0">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
@@ -779,21 +779,28 @@ export default function Home() {
               </label>
             </div>
 
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
-              <input
-                type="text"
-                value={paymentName}
-                onChange={(e) => setPaymentName(e.target.value)}
-                placeholder="Nom complet"
-                className="input input-bordered w-full"
-              />
-              <input
-                type="tel"
-                value={paymentPhone}
-                onChange={(e) => setPaymentPhone(e.target.value)}
-                placeholder="Numéro de téléphone"
-                className="input input-bordered w-full"
-              />
+            <div className="mt-5 grid min-w-[22rem] gap-3 md:grid-cols-2">
+              <label className="form-control w-full">
+                <span className="mb-2 text-sm font-medium text-base-content/70">Nom complet</span>
+                <input
+                  type="text"
+                  value={paymentName}
+                  onChange={(e) => setPaymentName(e.target.value)}
+                  placeholder="Nom complet"
+                  className="input input-bordered w-full"
+                />
+              </label>
+              <label className="form-control w-full">
+                <span className="mb-2 text-sm font-medium text-base-content/70">Numéro utilisé pour le dépôt <span className="text-error">*</span></span>
+                <input
+                  type="tel"
+                  value={paymentPhone}
+                  onChange={(e) => setPaymentPhone(e.target.value)}
+                  placeholder="Ex : 65 45 38 70"
+                  required
+                  className="input input-bordered w-full"
+                />
+              </label>
             </div>
 
             <div className="mt-4">
