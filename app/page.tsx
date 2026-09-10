@@ -676,7 +676,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="w-full bg-base-100 bg-[url('/file.svg')] bg-cover bg-center scrollable-preview relative lg:w-2/3 lg:h-full">
+              <div className="w-full min-h-0 overflow-y-auto overflow-x-auto bg-base-100 bg-[url('/file.svg')] bg-cover bg-center scrollable-preview relative lg:w-2/3 lg:h-full">
                 <div className="flex items-center justify-center fixed z-[9999] top-20 right-3 gap-3 sm:right-5">
                   <input
                     type="range"
