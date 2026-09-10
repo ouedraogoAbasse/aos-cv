@@ -727,7 +727,7 @@ export default function Home() {
       </main>
 
       <dialog id="payment_modal" className="modal">
-        <div className="modal-box max-w-2xl rounded-[2rem] border border-primary/20 bg-white p-0 overflow-hidden">
+        <div className="modal-box max-h-[90vh] max-w-2xl overflow-y-auto rounded-[2rem] border border-primary/20 bg-white p-0">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
