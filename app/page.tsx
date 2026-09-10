@@ -154,14 +154,14 @@ export default function Home() {
   };
 
   const paymentNumbers = {
-    orange: "+226 65 45 38 70",
+    orange: "+226 64 55 38 70",
     moov: "+226 62 13 49 70",
   };
 
   const normalizePhone = (value: string) => value.replace(/\D/g, "");
 
   const validatePaymentProof = () => {
-    const expectedDigits = paymentMethod === "orange" ? "65453870" : "62134970";
+    const expectedDigits = paymentMethod === "orange" ? "64553870" : "62134970";
     const enteredDigits = normalizePhone(paymentPhone);
 
     if (!paymentName.trim()) {
