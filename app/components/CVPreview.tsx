@@ -16,9 +16,19 @@ type Props = {
 }
 
 function formatDate(dateString: string): string {
+    if (!dateString) return "";
     const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return "";
     const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
     return date.toLocaleDateString('fr-FR', options);
+}
+
+/** « 01 janv. 2022 au 03 juin 2023 », sans « Invalid Date » quand une date manque. */
+function formatDateRange(start: string, end: string): string {
+    const from = formatDate(start);
+    const to = formatDate(end);
+    if (from && to) return `${from} au ${to}`;
+    return from || to;
 }
 
 const getStarRating = (proficiency: string) => {
@@ -72,8 +82,10 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
         };
     }, [photoUrl]);
 
+    // min-h (et non h) : le bloc grandit avec le contenu, condition
+    // nécessaire à un export PDF multi-pages correct.
     return (
-        <div ref={ref} className={` flex p-16 w-[950px] h-[1200px] shadow-lg ${download ? 'mb-10' : ''}`} data-theme={theme}>
+        <div ref={ref} className={` flex min-h-[1200px] w-[950px] p-16 shadow-lg ${download ? 'mb-10' : ''}`} data-theme={theme}>
 
             <div className='flex flex-col w-1/3'>
                 <div className='h-80 rounded-full border-8 overflow-hidden border-primary hobbies'>
@@ -141,7 +153,7 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
                         </h1>
                         <div className='flex flex-wrap gap-2'>
                             {skills.map((skill, index) => (
-                                <p key={index} className='badge badge-primary uppercase'>
+                                <p key={skill.id ?? index} className='badge badge-primary uppercase'>
                                     {skill.name}
                                 </p>
                             ))}
@@ -154,7 +166,7 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
                         </h1>
                         <div className='flex flex-col space-y-2'>
                             {languages.map((lang, index) => (
-                                <div key={index}>
+                                <div key={lang.id ?? index}>
                                     <span
                                         className='capitalize font-semibold'
                                     >
@@ -170,11 +182,11 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
 
                     <div className='mt-6'>
                         <h1 className='uppercase font-bold my-2'>
-                        Hobies
+                        Loisirs
                         </h1>
                         <div className='flex flex-col space-y-2'>
                             {hobbies.map((hobby, index) => (
-                                <div key={index}>
+                                <div key={hobby.id ?? index}>
                                    <span className='capitalize'>
                                     {hobby.name}
                                    </span>
@@ -206,11 +218,11 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
                     <div>
                         <h1
                             className='uppercase font-bold mb-2'
-                        >Experiences
+                        >Expériences
                         </h1>
                         <ul className='steps steps-vertical space-y-3'>
                             {experiences.map((exp, index) => (
-                                <li className='step step-primary' key={index}>
+                                <li className='step step-primary' key={exp.id ?? index}>
                                     <div className='text-left'>
                                         <h2
                                             className='flex text-md uppercase font-bold'>
@@ -228,8 +240,7 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
                                             <span
                                                 className='italic ml-2'
                                             >
-                                                {formatDate(exp.startDate)} {" "}au {" "}
-                                                {formatDate(exp.endDate)}
+                                                {formatDateRange(exp.startDate, exp.endDate)}
                                             </span>
 
                                         </div>
@@ -249,7 +260,7 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
                         </h1>
                         <ul className='steps steps-vertical space-y-3'>
                             {educations.map((edu, index) => (
-                                <li className='step step-primary' key={index}>
+                                <li className='step step-primary' key={edu.id ?? index}>
                                     <div className='text-left'>
                                         <h2
                                             className='flex text-md uppercase font-bold'>
@@ -267,8 +278,7 @@ const CVPreview = React.forwardRef<HTMLDivElement, Props>(function CVPreview(
                                             <span
                                                 className='italic ml-2'
                                             >
-                                                {formatDate(edu.startDate)}{" "} au {" "}
-                                                {formatDate(edu.endDate)}
+                                                {formatDateRange(edu.startDate, edu.endDate)}
                                             </span>
 
                                         </div>
