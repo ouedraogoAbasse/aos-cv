@@ -65,12 +65,22 @@ export function isAdmin(request: NextRequest): boolean {
   return verifySessionToken(request.cookies.get(SESSION_COOKIE)?.value);
 }
 
+/**
+ * Derrière un reverse proxy TLS (Render, Vercel, nginx…), Next reçoit la
+ * requête en HTTP : c'est l'en-tête `x-forwarded-proto` qui fait foi.
+ */
+function isHttpsRequest(request: NextRequest): boolean {
+  if (request.nextUrl.protocol === "https:") return true;
+  const proto = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+  return proto === "https";
+}
+
 export function setSessionCookie(response: NextResponse, request: NextRequest): void {
   response.cookies.set(SESSION_COOKIE, createSessionToken(), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    secure: request.nextUrl.protocol === "https:",
+    secure: isHttpsRequest(request),
     maxAge: SESSION_TTL_MS / 1000,
   });
 }

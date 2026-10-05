@@ -40,6 +40,7 @@ export default function AdminPaymentsPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [configMissing, setConfigMissing] = useState(false);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [filter, setFilter] = useState<Filter>("pending");
   const [busy, setBusy] = useState<string | null>(null);
@@ -91,6 +92,7 @@ export default function AdminPaymentsPage() {
       });
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
       if (!res.ok) {
+        if (res.status === 503) setConfigMissing(true);
         setLoginError(data?.error ?? "Connexion refusée.");
         return;
       }
@@ -140,7 +142,7 @@ export default function AdminPaymentsPage() {
 
   if (authed === null) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-base-100 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-base-100 p-6 text-base-content">
         <span className="loading loading-spinner loading-lg text-primary" />
       </main>
     );
@@ -148,7 +150,7 @@ export default function AdminPaymentsPage() {
 
   if (authed === false) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-base-100 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-base-100 p-6 text-base-content">
         <form
           onSubmit={handleLogin}
           className="w-full max-w-sm rounded-3xl border border-base-300 bg-base-200 p-8 shadow-xl"
@@ -187,6 +189,27 @@ export default function AdminPaymentsPage() {
             </p>
           )}
 
+          {configMissing && (
+            <div className="mt-4 rounded-2xl bg-warning/15 p-4 text-sm text-warning">
+              <p className="font-black">Variable manquante sur le serveur</p>
+              <ol className="mt-2 list-decimal space-y-1 pl-4">
+                <li>
+                  Ouvrez votre service sur <span className="font-semibold">Render</span> → onglet{" "}
+                  <span className="font-semibold">Environment</span>.
+                </li>
+                <li>
+                  Ajoutez une variable{" "}
+                  <code className="rounded bg-warning/20 px-1 font-mono">ADMIN_PASSWORD</code> avec
+                  le mot de passe de votre choix.
+                </li>
+                <li>
+                  Cliquez <span className="font-semibold">Save</span> (Render redéploie), puis
+                  rechargez cette page.
+                </li>
+              </ol>
+            </div>
+          )}
+
           <button type="submit" disabled={loading} className="btn btn-primary mt-5 w-full">
             {loading ? <span className="loading loading-spinner loading-sm" /> : "Se connecter"}
           </button>
@@ -214,7 +237,7 @@ export default function AdminPaymentsPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-base-100 p-4 sm:p-8">
+    <main className="min-h-screen bg-base-100 p-4 text-base-content sm:p-8">
       <div className="mx-auto max-w-5xl">
         <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>

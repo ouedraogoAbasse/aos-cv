@@ -14,7 +14,11 @@ export async function POST(request: NextRequest) {
 
   if (!isAuthConfigured()) {
     return NextResponse.json(
-      { ok: false, error: "ADMIN_PASSWORD n'est pas configuré sur le serveur." },
+      {
+        ok: false,
+        error:
+          "Configuration manquante : la variable d’environnement ADMIN_PASSWORD n’est pas définie sur le serveur. Ajoutez-la (ex. Render → Environment → Environment Variables) puis redéployez le service.",
+      },
       { status: 503 },
     );
   }
