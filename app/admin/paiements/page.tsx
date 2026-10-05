@@ -164,12 +164,18 @@ export default function AdminPaymentsPage() {
           </div>
 
           <label className="form-control w-full">
-            <span className="mb-2 text-sm font-medium text-base-content/70">Mot de passe</span>
+            <span className="mb-2 text-sm font-medium text-base-content/70">
+              Mot de passe <span className="text-base-content/40">(saisie affichée)</span>
+            </span>
             <input
-              type="password"
+              // Champ volontairement en clair : le mot de passe généré est long
+              // et l'utilisateur doit pouvoir vérifier ce qu'il tape.
+              type="text"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full font-mono"
+              autoComplete="off"
+              spellCheck={false}
               autoFocus
               required
             />
