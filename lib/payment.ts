@@ -9,7 +9,7 @@ export const PAYMENT_AMOUNT = 1000;
 export const PAYMENT_CURRENCY = "FCFA";
 
 export const PAYMENT_NUMBERS: Record<PaymentMethod, string> = {
-  orange: "+226 65 45 38 70",
+  orange: "+226 64 55 38 70",
   moov: "+226 62 13 49 70",
 };
 
